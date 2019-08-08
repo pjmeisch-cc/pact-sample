@@ -1,0 +1,129 @@
+{
+  "provider": {
+    "name": "MyTestProvider"
+  },
+  "consumer": {
+    "name": "MyTestConsumer"
+  },
+  "interactions": [
+    {
+      "description": "person does not exist",
+      "request": {
+        "method": "GET",
+        "path": "7",
+        "matchingRules": {
+          "path": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "/person/[0-9]+"
+              }
+            ],
+            "combine": "AND"
+          }
+        }
+      },
+      "response": {
+        "status": 404
+      },
+      "providerStates": [
+        {
+          "name": "nostate"
+        }
+      ]
+    },
+    {
+      "description": "retrieve existing person",
+      "request": {
+        "method": "GET",
+        "path": "42",
+        "matchingRules": {
+          "path": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "/person/[0-9]+"
+              }
+            ],
+            "combine": "AND"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset\u003dUTF-8"
+        },
+        "body": {
+          "firstName": "string",
+          "lastName": "string",
+          "id": 42
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.firstName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.lastName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset\u003d[\\w\\-]+)?"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.firstName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.lastName": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "nostate"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "3.6.12"
+    }
+  }
+}
