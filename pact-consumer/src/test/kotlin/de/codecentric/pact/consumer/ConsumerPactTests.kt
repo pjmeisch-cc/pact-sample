@@ -8,12 +8,12 @@ import au.com.dius.pact.consumer.dsl.PactDslWithProvider
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt
 import au.com.dius.pact.consumer.junit5.PactTestFor
 import au.com.dius.pact.model.RequestResponsePact
+import com.nhaarman.mockitokotlin2.whenever
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
@@ -34,7 +34,7 @@ class ConsumerPactTests {
 
     @BeforeEach
     fun beforeEach(mockServer: MockServer) {
-        `when`(configuration.host).thenReturn(mockServer.getUrl())
+        whenever(configuration.host).thenReturn(mockServer.getUrl())
     }
 
     @Pact(consumer = "MyTestConsumer")
@@ -46,9 +46,9 @@ class ConsumerPactTests {
                 .asBody()
 
         return builder
-                .given("nostate")
+                .given("person found")
                 .uponReceiving("retrieve existing person")
-                .matchPath("/person/[0-9]+", "42")
+                .matchPath("/person/[0-9]+", "/person/42")
                 .method("GET")
                 .willRespondWith()
                 .status(200)
@@ -67,9 +67,9 @@ class ConsumerPactTests {
     @Pact(consumer = "MyTestConsumer")
     fun `person 7 does not exist`(builder: PactDslWithProvider): RequestResponsePact {
         return builder
-                .given("nostate")
+                .given("no person found")
                 .uponReceiving("person does not exist")
-                .matchPath("/person/[0-9]+", "7")
+                .matchPath("/person/[0-9]+", "/person/7")
                 .method("GET")
                 .willRespondWith()
                 .status(404)

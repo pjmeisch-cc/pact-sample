@@ -8,7 +8,14 @@ import org.springframework.stereotype.Service
 class PersonService {
     private val fairy = Fairy.create()
 
-    fun findById(id: Int): Person? {
-        return fairy.person()
+    fun findById(id: Int): MyPerson? {
+        throw IllegalArgumentException("I do not want to be called")
+        return MyPerson(id, fairy.person())
     }
+}
+
+class MyPerson(val id: Int, private val person: Person) {
+
+    val firstName: String get() = person.firstName
+    val lastName: String get() = person.lastName
 }

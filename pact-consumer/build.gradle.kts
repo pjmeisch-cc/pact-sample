@@ -29,6 +29,9 @@ dependencies {
     }
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.5.1")
+
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
+
     testImplementation("au.com.dius:pact-jvm-consumer-junit5_2.12:3.6.12")
 }
 
