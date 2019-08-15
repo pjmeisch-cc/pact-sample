@@ -20,7 +20,7 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 
-@ExtendWith(SpringExtension::class)
+@ExtendWith(SpringExtension::class, PactVerificationInvocationContextProvider::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @PactFolder("../pact-consumer/mypacts")
 @Provider("MyTestProvider")
@@ -28,7 +28,7 @@ class ContractTests {
 
     private val fairy = Fairy.create()
 
-    @MockBean(reset = MockReset.AFTER)
+    @MockBean
     lateinit var personService: PersonService
 
     // examples often show:
@@ -54,7 +54,6 @@ class ContractTests {
     }
 
     @TestTemplate
-    @ExtendWith(PactVerificationInvocationContextProvider::class)
     fun `pact verification tests`(context: PactVerificationContext) {
         context.verifyInteraction()
     }

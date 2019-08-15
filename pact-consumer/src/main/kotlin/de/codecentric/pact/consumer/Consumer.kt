@@ -10,7 +10,7 @@ import org.springframework.web.client.getForEntity
 
 @ConfigurationProperties("consumer.config")
 class ConsumerConfiguration {
-    /** the host to connect to woth protocol and port */
+    /** the host to connect to with protocol and port */
     var host = "http://unknown.host:1234"
 }
 

@@ -34,7 +34,6 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
 
     testImplementation("au.com.dius:pact-jvm-provider-junit5_2.12:3.6.12")
-    testImplementation("au.com.dius:pact-jvm-provider-spring_2.12:3.6.12")
 }
 
 allOpen {
